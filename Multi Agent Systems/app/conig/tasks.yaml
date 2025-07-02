@@ -1,0 +1,14 @@
+research_task:
+  description: |
+    Research the top {total_attractions} attractions in {city} and gather local customs and cultural insights.
+  expected_output: "A combined list of {total_attractions} attraction(s) with detailed information and local cultural insights for {city}."
+  
+planning_task:
+  description: |
+    Create a {days}-day itinerary for {city} using only the researched attractions provided in the context.
+    Include:
+    1. A logical sequence {attractions_per_day} attractions for each day.
+    2. Transportation recommendations between locations.
+    3. Meal suggestions respecting local dining customs.
+    4. Key cultural considerations for each activity.
+  expected_output: "A detailed {days}-day schedule with exactly {attractions_per_day} attractions per day, including timing, transportation tips, meal suggestions, and cultural guidance."
