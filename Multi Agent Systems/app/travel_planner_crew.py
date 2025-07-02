@@ -3,6 +3,7 @@ import yaml
 from crewai import Agent, Task, Crew, Process
 from crewai.project import CrewBase, agent, crew, task
 from dotenv import load_dotenv
+from models import TravelItinerary
 
 load_dotenv()
 
@@ -57,7 +58,8 @@ class TravelPlannerCrew:
 
         return Task(
             config=self.tasks_data["planning_task"],
-            agent=self.planner()
+            agent=self.planner(),
+            output_pydantic=TravelItinerary
         )
     
     @crew
