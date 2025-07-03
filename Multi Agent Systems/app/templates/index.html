@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Travel Planner</title>
+   
+</head>
+<body>
+    <h1>Travel Planner</h1>
+    
+    <div>
+        <h5>Plan Your Trip</h5>
+        <!-- Form for trip planning -->
+        <form id="tripForm">
+            <div>
+                <label for="city">City</label>
+                <input type="text" id="city" name="city" required>
+            </div>
+            <div>
+                <label for="days">Number of Days</label>
+                <input type="number" id="days" name="days" min="1" required>
+            </div>
+            <div>
+                <label for="attractions_per_day">Number of Attractions per Day</label>
+                <input type="number" id="attractions_per_day" name="attractions_per_day" min="1" required>
+            </div>
+            <button type="submit">Plan Trip</button>
+        </form>
+    </div>
+
+    <!-- Results Section -->
+    <div id="resultsCard" style="display: none;">
+        <h5>Your Travel Itinerary</h5>
+        <div id="resultsContent"></div>
+    </div>
+</body>
+</html>

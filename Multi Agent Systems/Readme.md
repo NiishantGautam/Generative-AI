@@ -67,10 +67,15 @@ pip freeze > requirements.txt
 
 ```
 app/
-│
-├── config/             # Directory for all configuration files
-│   ├── agents.yaml     # Agent configurations
-│   └── tasks.yaml      # Task configurations
-│
-└── main.py             # Main application code
-
+├── main.py                        # Main application file
+└── travel_planner/
+    ├── travel_planner_crew.py     # Main travel planner logic
+    ├── models/
+    │   ├── daily_plan.py          # Daily planning model
+    │   ├── travel_itinerary.py    # Itinerary model
+    │   └── attraction.py          # Attraction model
+    ├── tools/
+    │   └── custom_search_tool.py  # Custom search tool
+    └── config/
+        ├── tasks.yaml             # Task configurations
+        └── agents.yaml            # Agent configurations

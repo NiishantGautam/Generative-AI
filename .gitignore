@@ -4,3 +4,4 @@
 .DS_Store
 Multi Agent Systems/.env
 .env
+**/__pycache__/
