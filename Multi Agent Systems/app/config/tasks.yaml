@@ -1,6 +1,9 @@
 research_task:
   description: |
-    Research the top {total_attractions} attractions in {city} and gather local customs and cultural insights.
+    Research the top {total_attractions} attraction(s) in {city} and gather local customs and cultural insights.
+    1. Search for popular attractions and local customs in {city}.
+    2. Scrape official websites and travel advisories for details such as opening hours, addresses, and cultural tips.
+    3. Compile the information into structured data.
   expected_output: "A combined list of {total_attractions} attraction(s) with detailed information and local cultural insights for {city}."
   
 planning_task:
@@ -11,4 +14,4 @@ planning_task:
     2. Transportation recommendations between locations.
     3. Meal suggestions respecting local dining customs.
     4. Key cultural considerations for each activity.
-  expected_output: "A detailed {days}-day schedule with exactly {attractions_per_day} attractions per day, including timing, transportation tips, meal suggestions, and cultural guidance."
+  expected_output: "A detailed {days}-day schedule with exactly {attractions_per_day} attractions per day, including timing, transportation tips, meal suggestions, and cultural guidance, strictly using the researched attractions."

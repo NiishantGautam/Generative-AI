@@ -4,6 +4,9 @@ from crewai import Agent, Task, Crew, Process
 from crewai.project import CrewBase, agent, crew, task
 from dotenv import load_dotenv
 from models import TravelItinerary
+from custom_search_tool import CustomSearchTool
+from crewai_tools import ScrapeWebsiteTool
+
 
 load_dotenv()
 
@@ -22,9 +25,15 @@ class TravelPlannerCrew:
 
         with open(self.agents_configuration_path, 'r') as file:
             self.agents_data = yaml.safe_load(file)
-
+      
         with open(self.tasks_configuration_path, 'r') as file:
             self.tasks_data = yaml.safe_load(file)
+
+        # Add the scrape website tool instance
+        self.scrape_website_tool = ScrapeWebsiteTool()
+
+        # Add the custom search tool instace
+        self.search_tool = CustomSearchTool()
 
     
     @agent
@@ -32,7 +41,8 @@ class TravelPlannerCrew:
         """ A researcher agent that can research the internet for information """
 
         return Agent(
-            config=self.agents_data["researcher"]
+            config=self.agents_data["researcher"],
+            tools=[self.search_tool, self.scrape_website_tool]
         )
     
     @agent
@@ -69,7 +79,8 @@ class TravelPlannerCrew:
         return Crew(
             agents = self.agents,
             tasks = self.tasks,
-            process = Process.sequential
+            process = Process.sequential,
+            verbose = True
         )
     
    
