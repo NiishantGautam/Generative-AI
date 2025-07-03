@@ -3,10 +3,10 @@ import yaml
 from crewai import Agent, Task, Crew, Process
 from crewai.project import CrewBase, agent, crew, task
 from dotenv import load_dotenv
-from models import TravelItinerary
-from custom_search_tool import CustomSearchTool
+from travel_planner.tools.custom_search_tool import CustomSearchTool
+from travel_planner.models.travel_itinerary import TravelItinerary
+from typing import List, Optional
 from crewai_tools import ScrapeWebsiteTool
-
 
 load_dotenv()
 
