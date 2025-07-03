@@ -79,3 +79,8 @@ app/
     └── config/
         ├── tasks.yaml             # Task configurations
         └── agents.yaml            # Agent configurations
+├── static/
+│   └── js/
+│       └── travel-planner.js  # JavaScript file for enhancing interactivity
+└── templates/
+    └── index.html
