@@ -28,39 +28,51 @@ pip install -r requirements.txt
 
 ## Configuration
 
-Before running your Quebec & Montreal travel planner, set up your agents:
+### OpenAI API Key Setup
 
-1. **Agents Configuration**: Edit `app/config/agents.yaml` to define travel planning agents (e.g., Quebec City specialist, Montreal expert, itinerary coordinator)
-2. **Tasks Configuration**: Edit `app/config/tasks.yaml` to define travel planning workflows (research attractions, create itineraries, suggest activities)
+**⚠️ IMPORTANT:** This application requires an OpenAI API key to function. The system will automatically check for the API key and provide helpful error messages if it's missing.
+
+You can set up your OpenAI API key by exporting it as an environment variable:
+
+For macOS/Linux:
+```bash
+export OPENAI_API_KEY='your-api-key-here'
+```
+
+For Windows (Command Prompt):
+```cmd
+set OPENAI_API_KEY=your-api-key-here
+```
+
+For Windows (PowerShell):
+```powershell
+$env:OPENAI_API_KEY='your-api-key-here'
+```
+
+Create a .env file in the same directory as your main.py:
+OPENAI_API_KEY=your-actual-api-key-here
+
+### Features:
+- ✅ **Automatic API Key Validation**: The app checks for your API key on startup
+- ✅ **Clear Error Messages**: Get specific instructions if the API key is missing
+- ✅ **Frontend Warnings**: The web interface will show setup instructions if needed
+- ✅ **Real-time Status**: Check API key status via the `/api-status` endpoint
 
 ## How to Run
 
-Get ready to plan your Quebec adventure! 🚀
-
+1. Start the Flask development server:
 ```bash
 cd app
 python main.py
 ```
 
-The system will ask you:
-- How many days you have for your trip
-- Whether you prefer Quebec City, Montreal, or both
-- Your interests (history, food, culture, etc.)
+2. Open your web browser and navigate to:
+```
+http://localhost:8000
+```
+```
 
-Then sit back and let the agents create your perfect itinerary!
 
-## Development
-
-### Adding a new dependency
-
-Whenever you need to add a package, do:
-
-```bash
-# 1) Install the package
-pip install <package-name>
-
-# 2) Update requirements.txt
-pip freeze > requirements.txt
 ```
 
 ## Project Structure
@@ -70,17 +82,17 @@ app/
 ├── main.py                        # Main application file
 └── travel_planner/
     ├── travel_planner_crew.py     # Main travel planner logic
-    ├── models/
-    │   ├── daily_plan.py          # Daily planning model
-    │   ├── travel_itinerary.py    # Itinerary model
-    │   └── attraction.py          # Attraction model
-    ├── tools/
+    ├── models/                     # Data models
+    │   ├── daily_plan.py          
+    │   ├── travel_itinerary.py    
+    │   └── attraction.py          
+    ├── tools/                      
     │   └── custom_search_tool.py  # Custom search tool
-    └── config/
+    └── config/                     # Configuration files 
         ├── tasks.yaml             # Task configurations
         └── agents.yaml            # Agent configurations
-├── static/
+├── static/                        # Static files (CSS, JS)
 │   └── js/
-│       └── travel-planner.js  # JavaScript file for enhancing interactivity
+│       └── travel-planner.js  
 └── templates/
     └── index.html

@@ -1,20 +1,55 @@
 from flask import Flask, request, jsonify, render_template
+import os
+from dotenv import load_dotenv
 from travel_planner.travel_planner_crew import TravelPlannerCrew
 
+# Load environment variables from .env file
+load_dotenv()
 
 # Initialize the Flask app
 app = Flask(__name__)
+
+def validate_openai_key():
+    """Check if OpenAI API key is available"""
+    openai_key = os.getenv('OPENAI_API_KEY')
+    if not openai_key:
+        return False, "OpenAI API key is not set. Please set the OPENAI_API_KEY environment variable."
+    if openai_key.strip() == "":
+        return False, "OpenAI API key is empty. Please provide a valid API key."
+    return True, "API key is valid"
 
 # Define the route for the home page
 @app.route('/')
 def index():
     return render_template("index.html")
 
+# API endpoint to check API key status
+@app.route('/api-status', methods=['GET'])
+def api_status():
+    is_valid, message = validate_openai_key()
+    return jsonify({
+        "api_key_valid": is_valid,
+        "message": message
+    })
 
 # API endpoint for travel planning
-@app.route('/api/plan', methods=['POST'])
+@app.route('/plan', methods=['POST'])
 def plan_trip():
     try:
+        # First, validate the OpenAI API key
+        is_valid, error_message = validate_openai_key()
+        if not is_valid:
+            return jsonify({
+                "error": error_message,
+                "solution": "OPTION 1 - Create .env file (Recommended):\n" +
+                           "Create a .env file in the same directory as main.py and add:\n" +
+                           "OPENAI_API_KEY=your-api-key-here\n\n" +
+                           "OPTION 2 - Export environment variable:\n" +
+                           "For macOS/Linux: export OPENAI_API_KEY='your-api-key-here'\n" +
+                           "For Windows CMD: set OPENAI_API_KEY=your-api-key-here\n" +
+                           "For Windows PowerShell: $env:OPENAI_API_KEY='your-api-key-here'"
+            }), 400
+
         # Get form data
         city = request.form.get('city')
         days = int(request.form.get('days'))
@@ -23,13 +58,10 @@ def plan_trip():
         # Calculate total attractions needed
         total_attractions = days * attractions_per_day
 
-        # TODO: Add a try-except block to handle errors during crew execution
         try:
-            
-            # TODO: Initialize the TravelPlannerCrew instance
             travel_planner = TravelPlannerCrew()
             
-            # TODO: Run the crew with the proper inputs (city, days, attractions_per_day, total_attractions)
+            # Run the crew with the proper inputs (city, days, attractions_per_day, total_attractions)
             result = travel_planner.travel_crew().kickoff(inputs = {
                 "city": city,
                 "days": days,
@@ -37,24 +69,40 @@ def plan_trip():
                 "total_attractions": total_attractions
             } )
             
-            # TODO: Check if the result has a pydantic model and return it as JSON
+            # Return the pydantic output in JSON format
             if result.pydantic:
                 return jsonify(result.pydantic.model_dump())
                 
-            # TODO: Return an error message with 404 status if no valid itinerary is generated (not pydantic)
             return jsonify({"error": "No travel itinerary generated"}), 400
-            
             
         except Exception as e:
             return jsonify({"error": f"Error generating Travel plan: {str(e)} "}), 500
         
     except Exception as e:
-        # Return an error message if there is an exception in the request processing
         return jsonify({"error": str(e)}), 400
 
 
 # Run the Flask application
 if __name__ == '__main__':
+    # Check API key on startup
+    is_valid, message = validate_openai_key()
+    if not is_valid:
+        print("⚠️  WARNING: " + message)
+        print("📋 Please set your OpenAI API key using one of these methods:")
+        print("")
+        print("   🎯 OPTION 1 - Create .env file (Recommended):")
+        print("      Create a .env file in this directory and add:")
+        print("      OPENAI_API_KEY=your-api-key-here")
+        print("")
+        print("   🎯 OPTION 2 - Export environment variable:")
+        print("      For macOS/Linux: export OPENAI_API_KEY='your-api-key-here'")
+        print("      For Windows CMD: set OPENAI_API_KEY=your-api-key-here")
+        print("      For Windows PowerShell: $env:OPENAI_API_KEY='your-api-key-here'")
+        print("")
+        print("   Then restart the application.")
+    else:
+        print("✅ OpenAI API key is configured correctly!")
+    
     app.run(
         host='0.0.0.0',
         port=8000,

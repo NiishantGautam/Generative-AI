@@ -5,3 +5,4 @@
 Multi Agent Systems/.env
 .env
 **/__pycache__/
+**/.env/
