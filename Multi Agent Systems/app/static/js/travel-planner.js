@@ -32,7 +32,7 @@ document.addEventListener('DOMContentLoaded', async function() {
             `;
             
             // Insert warning at the top of the container
-            const container = document.querySelector('.container');
+            const container = document.querySelector('.main-container');
             container.insertBefore(warningDiv, container.firstChild);
         }
     } catch (error) {
@@ -44,8 +44,9 @@ document.querySelector("#tripForm").addEventListener("submit", async function(e)
     e.preventDefault();
 
     // Show loading spinner and result card
-    document.querySelector("#loadingSpinner").style.display = "block";
+    document.querySelector("#loadingSpinner").style.display = "flex";
     document.querySelector("#resultsCard").style.display = "block";
+    document.querySelector("#resultsContent").innerHTML = "";
 
     // Get form data
    const formData = new FormData(this);
@@ -63,34 +64,55 @@ document.querySelector("#tripForm").addEventListener("submit", async function(e)
     if(response.ok && data) {
         
         // Display the itinerary
-       
         let html = '<div class="itinerary">';
 
          // Check if daily plans exist and are in an array format
-
          if (data.daily_plans && Array.isArray(data.daily_plans)) {
             data.daily_plans.forEach((day) => {
                 html += `
-                    <div class="day-plan mb-4">
-                        <h6>Day ${day.day_number}</h6>
-                        <ul class="list-group">
+                    <div class="day-plan">
+                        <div class="day-number">
+                            <i class="fas fa-calendar-day"></i>
+                            Day ${day.day_number}
+                        </div>
+                        <div class="attractions-container">
                             ${day.attractions.map(attraction => `
-                                <li class="list-group-item">
-                                    <strong>${attraction.name}</strong><br>
-                                    <small class="text-muted">${attraction.category} • ${attraction.estimated_duration}</small><br>
-                                    ${attraction.address ? `<small class="text-muted">${attraction.address}</small><br>` : ''}
-                                    ${attraction.description}
-                                </li>
+                                <div class="attraction-card">
+                                    <div class="attraction-name">
+                                        <i class="fas fa-map-marker-alt" style="color: #667eea;"></i>
+                                        ${attraction.name}
+                                    </div>
+                                    <div class="attraction-meta">
+                                        <i class="fas fa-tag icon"></i>
+                                        ${attraction.category}
+                                        <span class="ms-3">
+                                            <i class="fas fa-clock icon"></i>
+                                            ${attraction.estimated_duration}
+                                        </span>
+                                    </div>
+                                    ${attraction.address ? `
+                                        <div class="attraction-address">
+                                            <i class="fas fa-map-marker-alt icon"></i>
+                                            ${attraction.address}
+                                        </div>
+                                    ` : ''}
+                                    <div class="attraction-description">
+                                        ${attraction.description}
+                                    </div>
+                                </div>
                             `).join('')}
-                        </ul>
+                        </div>
                         ${day.meal_suggestions ? `
-                            <div class="mt-2">
-                                <small class="text-muted">Meal Suggestions:</small>
-                                <ul class="list-unstyled">
+                            <div class="meal-suggestions">
+                                <h6>
+                                    <i class="fas fa-utensils icon"></i>
+                                    Meal Suggestions
+                                </h6>
+                                <div class="meal-items">
                                     ${day.meal_suggestions.map(suggestion => `
-                                        <li>• ${suggestion}</li>
+                                        <div class="meal-item"> ${suggestion}</div>
                                     `).join('')}
-                                </ul>
+                                </div>
                             </div>
                         ` : ''}
                     </div>
@@ -98,12 +120,14 @@ document.querySelector("#tripForm").addEventListener("submit", async function(e)
             });
 
             // Add overall travel tips if available
-
             if (data.overall_tips) {
                 html += `
-                    <div class="overall-tips mt-4">
-                        <h6>Overall Tips</h6>
-                        <div class="alert alert-info">
+                    <div class="overall-tips">
+                        <h6>
+                            <i class="fas fa-lightbulb icon"></i>
+                            Overall Travel Tips
+                        </h6>
+                        <div class="overall-tips-content">
                             ${data.overall_tips}
                         </div>
                     </div>
@@ -112,7 +136,13 @@ document.querySelector("#tripForm").addEventListener("submit", async function(e)
 
          } else {
           // Display a message if no itinerary data is available
-            html += '<div class="alert alert-warning">No itinerary data available</div>';
+            html += `
+                <div class="alert alert-warning" style="border-radius: 15px;">
+                    <i class="fas fa-exclamation-triangle icon"></i>
+                    <strong>No itinerary data available</strong>
+                    <p class="mb-0 mt-2">Please try again with different search parameters.</p>
+                </div>
+            `;
          }
 
          html += '</div>';
@@ -120,12 +150,15 @@ document.querySelector("#tripForm").addEventListener("submit", async function(e)
         
     } else {
         // Handle API key and other errors
-        let errorHtml = `<div class="alert alert-danger">`;
+        let errorHtml = `<div class="alert alert-danger" style="border-radius: 15px;">`;
         
         if (data.error && data.solution) {
             // This is an API key error with setup instructions
             errorHtml += `
-                <strong>🔑 ${data.error}</strong>
+                <strong>
+                    <i class="fas fa-key icon"></i>
+                    ${data.error}
+                </strong>
                 <details class="mt-2">
                     <summary>Setup Instructions</summary>
                     <div class="mt-2">
@@ -136,7 +169,11 @@ document.querySelector("#tripForm").addEventListener("submit", async function(e)
             `;
         } else {
             // Generic error
-            errorHtml += `${data.error || 'An error occurred while planning your trip.'}`;
+            errorHtml += `
+                <i class="fas fa-exclamation-circle icon"></i>
+                <strong>Error</strong><br>
+                ${data.error || 'An error occurred while planning your trip. Please try again.'}
+            `;
         }
         
         errorHtml += `</div>`;
@@ -147,7 +184,8 @@ document.querySelector("#tripForm").addEventListener("submit", async function(e)
 } catch (error) {
     console.error('Error:', error);
     document.getElementById('resultsContent').innerHTML = `
-        <div class="alert alert-danger">
+        <div class="alert alert-danger" style="border-radius: 15px;">
+            <i class="fas fa-wifi icon"></i>
             <strong>Network Error</strong><br>
             Unable to connect to the server. Please check your connection and try again.
         </div>

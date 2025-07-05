@@ -3,50 +3,111 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Travel Planner</title>
+    <title>Travel Planner - Plan Your Perfect Journey</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet">
 </head>
 <body>
-    <div class="container mt-5">
-        <h1 class="mb-4">Travel Planner</h1>
-        <div class="row">
-            <div class="col-md-6">
-                <div class="card mb-4">
-                    <div class="card-body">
-                        <h5 class="card-title">Plan Your Trip</h5>
-                        <form id="tripForm">
-                            <div class="mb-3">
-                                <label for="city" class="form-label">City</label>
-                                <input type="text" class="form-control" id="city" name="city" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="days" class="form-label">Number of Days</label>
-                                <input type="number" class="form-control" id="days" name="days" min="1" required>
-                            </div>
-                            <div class="mb-3">
-                                <label for="attractions_per_day" class="form-label">Number of Attractions per Day</label>
-                                <input type="number" class="form-control" id="attractions_per_day" name="attractions_per_day" min="1" required>
-                            </div>
-                            <button type="submit" class="btn btn-primary">Plan Trip</button>
-                        </form>
-                    </div>
+    <div class="container-fluid">
+        <div class="container main-container">
+            <!-- Hero Section -->
+            <div class="hero-section">
+                <div class="hero-content">
+                    <h1 class="hero-title">
+                        <i class="fas fa-plane-departure"></i>
+                        Travel Planner
+                    </h1>
+                    <p class="hero-subtitle">
+                        <i class="fas fa-map-marked-alt icon"></i>
+                        Create your perfect journey with AI-powered itineraries
+                    </p>
                 </div>
+            </div>
 
-                <!-- Results Section -->
-                <div class="card" id="resultsCard" style="display: none;">
-                    <div class="card-body">
-                        <h5 class="card-title">Your Travel Itinerary</h5>
-                        <div id="loadingSpinner" class="text-center" style="display: none;">
-                            <div class="spinner-border text-primary" role="status">
-                                <span class="visually-hidden">Loading...</span>
+            <!-- Main Content -->
+            <div class="section-padding">
+                <div class="row justify-content-center">
+                    <div class="col-lg-8">
+                        <!-- Planning Form -->
+                        <div class="card form-card mb-4">
+                            <div class="card-body p-4">
+                                <h5 class="card-title text-center mb-4">
+                                    <i class="fas fa-route icon"></i>
+                                    Plan Your Perfect Trip
+                                </h5>
+                                <form id="tripForm">
+                                    <div class="mb-3">
+                                        <label for="city" class="form-label">
+                                            <i class="fas fa-city icon"></i>
+                                            Destination City
+                                        </label>
+                                        <input type="text" class="form-control" id="city" name="city" autocomplete="off"
+                                               placeholder="Enter your dream destination..." required>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="days" class="form-label">
+                                                    <i class="fas fa-calendar-alt icon"></i>
+                                                    Number of Days
+                                                </label>
+                                                <input type="number" class="form-control" id="days" name="days" 
+                                                       min="1" max="30" placeholder="How many days?" required>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="attractions_per_day" class="form-label">
+                                                    <i class="fas fa-map-marker-alt icon"></i>
+                                                    Attractions per Day
+                                                </label>
+                                                <input type="number" class="form-control" id="attractions_per_day" 
+                                                       name="attractions_per_day" min="1" max="10" 
+                                                       placeholder="Number of stops" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="text-center">
+                                        <button type="submit" class="btn btn-primary btn-lg">
+                                            <i class="fas fa-magic icon"></i>
+                                            Create My Itinerary
+                                        </button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
-                        <div id="resultsContent"></div>
+
+                        <!-- Results Section -->
+                        <div class="card results-card" id="resultsCard" style="display: none;">
+                            <div class="card-body p-4">
+                                <h5 class="card-title text-center mb-4">
+                                    <i class="fas fa-map icon"></i>
+                                    Your Travel Itinerary
+                                </h5>
+                                
+                                <!-- Loading Spinner -->
+                                <div id="loadingSpinner" class="loading-spinner" style="display: none;">
+                                    <div class="spinner-border text-primary" role="status">
+                                        <span class="visually-hidden">Loading...</span>
+                                    </div>
+                                    <div class="loading-text">
+                                        <i class="fas fa-compass icon"></i>
+                                        Creating your perfect itinerary...
+                                    </div>
+                                </div>
+                                
+                                <!-- Results Content -->
+                                <div id="resultsContent"></div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script src="{{ url_for('static', filename='js/travel-planner.js') }}"></script>
 </body>

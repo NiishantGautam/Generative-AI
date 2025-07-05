@@ -89,16 +89,6 @@ if __name__ == '__main__':
     if not is_valid:
         print("⚠️  WARNING: " + message)
         print("📋 Please set your OpenAI API key using one of these methods:")
-        print("")
-        print("   🎯 OPTION 1 - Create .env file (Recommended):")
-        print("      Create a .env file in this directory and add:")
-        print("      OPENAI_API_KEY=your-api-key-here")
-        print("")
-        print("   🎯 OPTION 2 - Export environment variable:")
-        print("      For macOS/Linux: export OPENAI_API_KEY='your-api-key-here'")
-        print("      For Windows CMD: set OPENAI_API_KEY=your-api-key-here")
-        print("      For Windows PowerShell: $env:OPENAI_API_KEY='your-api-key-here'")
-        print("")
         print("   Then restart the application.")
     else:
         print("✅ OpenAI API key is configured correctly!")
