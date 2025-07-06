@@ -110,7 +110,10 @@ document.querySelector("#tripForm").addEventListener("submit", async function(e)
                                 </h6>
                                 <div class="meal-items">
                                     ${day.meal_suggestions.map(suggestion => `
-                                        <div class="meal-item"> ${suggestion}</div>
+                                        <div class="meal-item">
+                                            <i class="fas fa-utensils" style="color: #28a745; margin-right: 8px;"></i>
+                                            ${suggestion}
+                                        </div>
                                     `).join('')}
                                 </div>
                             </div>

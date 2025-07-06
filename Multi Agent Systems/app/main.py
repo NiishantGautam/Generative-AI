@@ -18,6 +18,17 @@ def validate_openai_key():
         return False, "OpenAI API key is empty. Please provide a valid API key."
     return True, "API key is valid"
 
+
+
+def validate_serper_key():
+    serper_key = os.getenv('SERPER_API_KEY')
+    if not serper_key:
+        return False, "Serper API key is not set. Please set the SERPER_API_KEY environment variable."
+    if serper_key.strip() == "":
+        return False, "Serper API key is empty. Please provide a valid API key."
+    return True, "API key is valid"
+
+
 # Define the route for the home page
 @app.route('/')
 def index():
@@ -26,10 +37,13 @@ def index():
 # API endpoint to check API key status
 @app.route('/api-status', methods=['GET'])
 def api_status():
-    is_valid, message = validate_openai_key()
+    openai_valid, openai_msg = validate_openai_key()
+    serper_valid, serper_msg = validate_serper_key()
     return jsonify({
-        "api_key_valid": is_valid,
-        "message": message
+        "openai_api_key_valid": openai_valid,
+        "openai_message": openai_msg,
+        "serper_api_key_valid": serper_valid,
+        "serper_message": serper_msg
     })
 
 # API endpoint for travel planning
@@ -41,13 +55,10 @@ def plan_trip():
         if not is_valid:
             return jsonify({
                 "error": error_message,
-                "solution": "OPTION 1 - Create .env file (Recommended):\n" +
+                "solution": " - Create .env file (Recommended):\n" +
                            "Create a .env file in the same directory as main.py and add:\n" +
-                           "OPENAI_API_KEY=your-api-key-here\n\n" +
-                           "OPTION 2 - Export environment variable:\n" +
-                           "For macOS/Linux: export OPENAI_API_KEY='your-api-key-here'\n" +
-                           "For Windows CMD: set OPENAI_API_KEY=your-api-key-here\n" +
-                           "For Windows PowerShell: $env:OPENAI_API_KEY='your-api-key-here'"
+                           "OPENAI_API_KEY=your-api-key-here\n" +
+                           "SERPER_API_KEY=your-api-key-here\n"
             }), 400
 
         # Get form data

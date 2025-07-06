@@ -30,13 +30,14 @@ pip install -r requirements.txt
 
 ### OpenAI API Key Setup
 
-**⚠️ IMPORTANT:** This application requires an OpenAI API key to function. The system will automatically check for the API key and provide helpful error messages if it's missing.
+**⚠️ IMPORTANT:** This application requires an OpenAI API key to function. The system will automatically check for the API key and provide helpful error messages if it's missing. Also if the duck duck go search is missing please use the  SERPER_API_KEY
 
 You can set up your OpenAI API key by exporting it as an environment variable:
 
 For macOS/Linux:
 ```bash
 export OPENAI_API_KEY='your-api-key-here'
+export  SERPER_API_KEY='your-api-key-here'
 ```
 
 For Windows (Command Prompt):
