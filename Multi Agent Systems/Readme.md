@@ -97,3 +97,11 @@ app/
 │       └── travel-planner.js  
 └── templates/
     └── index.html
+```
+
+
+
+## Output
+
+![Travel Planner output1](app/static/img/output.png)
+![Tavel Planner Outptu2](app/static/img/output1.png)
