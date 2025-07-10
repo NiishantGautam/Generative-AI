@@ -7,3 +7,4 @@ Multi Agent Systems/.env
 **/__pycache__/
 **/.env/
 **/node_modules
+**/.vscode/
