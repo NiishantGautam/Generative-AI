@@ -10,6 +10,6 @@
 
 2. MCP Server
 
- ## Events - Weather and Other alerts
+ 1.  Events - Weather and Other Temperature Alerts. 
 
- ## Automata - Playwright MCP to automate tasks
+ 2. CLI Project

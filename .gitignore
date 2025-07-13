@@ -1,10 +1,14 @@
 .venv
 .venv/
-.venv/
 .DS_Store
 Multi Agent Systems/.env
 .env
 **/__pycache__/
-**/.env/
+**/.env
 **/node_modules
 **/.vscode/
+**/.venv/
+
+# Python build artifacts
+**/*.egg-info/
+    
